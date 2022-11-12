@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Biblioteca App</string>
+    <string name="codigo">codigo</string>
+
+
+    <string name="msgDerechosReservados">Todos los Derechos Reservados ® 2022</string>
+    <string name="tvVersion">V 1.0.0</string>
+
+    <!-- Datos Alumno Activity-->
+    <string name="DevBy">Desarrollado por:</string>
+    <string name="Name">Nombre:</string>
+    <string name="MyName">Gerardo José Villeda Erazo</string>
+    <string name="Code">Código:</string>
+    <string name="MyCode">VE16-I04-001</string>
+    <string name="Dev">Developer</string>
+    <string name="registrar_publicacion">Registrar publicacion</string>
+    <string name="numero_revista">Numero revista</string>
+    <string name="anio_publicacion">Año publicacion</string>
+    <string name="titulo_publicacion">Titulo publicacion</string>
+    <string name="codigo_publicacion">Codigo publicacion</string>
+    <string name="titulo">Titulo</string>
+    <string name="libro">Libro</string>
+    <string name="revista">Revista</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="revista_tag">Revista</string>
+    <string name="estado_disp_tag">Disponible</string>
+    <string name="estado_tag">Prestado</string>
+    <string name="libro_tag">Libro</string>
+    <string name="seleccionar_opcion">Debe seleccionar una opcion</string>
+    <string name="msg_dialog">Guardando... por favor espere</string>
+    <string name="titulo_lista_vacia">¡Aviso!</string>
+    <string name="msg_lista_vacia">Lista Vacia...</string>
+
+    <string name="agregar_pub">Agregar Publicación</string>
+    <string name="mostrar_lista">Mostrar Lista</string>
+    <string name="mostrar_datos">Mostrar Datos</string>
+    <string name="registro_usuario">Registro de usuario</string>
+    <string name="helper_text">Obligatorio</string>
+    <string name="nombre_de_usuario">Nombre de usuario</string>
+    <string name="contrasenia">Contraseña</string>
+    <string name="registrar_text">Registrar</string>
+    <string name="sin_cuenta">Aún no tienes cuenta?. Haz click acá</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="bienvenido">Bienvenido</string>
+    <string name="description_img">Imagen de la APP</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
+</resources>
