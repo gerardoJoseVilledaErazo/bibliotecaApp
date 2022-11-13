@@ -1,10 +1,8 @@
 package com.example.trabajadorapp
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
@@ -16,13 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.example.trabajadorapp.Adapters.PublicacionAdapter
-import com.example.trabajadorapp.MainActivity.Companion.publicacionRepository
 import com.example.trabajadorapp.Models.Interfaces.IOnClickListener
-import com.example.trabajadorapp.Models.Libro
+import com.example.trabajadorapp.Models.LibroEntity
+import com.example.trabajadorapp.Models.RevistaEntity
 import com.example.trabajadorapp.databinding.ActivityMostrarListaBinding
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
@@ -35,6 +33,7 @@ class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
     private lateinit var publicacionAdapter: PublicacionAdapter
     private val llmanager = LinearLayoutManager(this)
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private var tipoPublicacion: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +41,13 @@ class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
         binding = ActivityMostrarListaBinding.inflate(layoutInflater)
         setContentView(binding.root)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         // Habilitar action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // Titulo para la actividad
         title = "Mostrar Lista"
+
+        tipoPublicacion = intent.extras!!.getInt("tipoPublicacion")
 
         binding.btnAdd.setOnClickListener {
             // Abrir pantalla seleccionar publicacion
@@ -53,7 +55,7 @@ class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
         }
 
         // Validar si la lista esta vacia
-        if (publicacionRepository.get().size == 0) {
+        /*if (publicacionRepository.get().size == 0) {
             AlertDialog.Builder(this)
 
                 .setTitle(this.resources.getString(R.string.titulo_lista_vacia))
@@ -69,7 +71,11 @@ class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
             configSwipe()
             // Configurar RecyclerView
             configRecyclerView()
-        }
+        }*/
+        // Configurar SwipeRefreshLayout
+        configSwipe()
+        // Configurar RecyclerView
+        configRecyclerView()
     }
 
     private fun configSwipe() {
@@ -102,12 +108,39 @@ class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
         return connectivityManager.activeNetworkInfo != null
     }
 
+    private fun getLibros() {
+        doAsync {
+            val libros = BibliotecaApplication.database.libroDao().getAll()
+            uiThread {
+                publicacionAdapter.setLibros(libros)
+            }
+        }
+    }
+
+    private fun getRevistas() {
+        doAsync {
+            val revistas = BibliotecaApplication.database.revistaDao().getAll()
+            uiThread {
+                publicacionAdapter.setRevistas(revistas)
+            }
+        }
+    }
+
     // Método que configura el recyclerview
     private fun configRecyclerView() {
         publicacionAdapter = PublicacionAdapter(
-            lstPublicaciones = publicacionRepository.get(),
+            lstPublicaciones = mutableListOf()/*publicacionRepository.get()*/,
             this
         )
+
+        if (tipoPublicacion == 1) {
+            // Libros
+            getLibros()
+        } else {
+            // Revistas
+            getRevistas()
+        }
+
         binding.rcPublicaciones.setHasFixedSize(true)
         binding.rcPublicaciones.layoutManager = llmanager
         binding.rcPublicaciones.adapter = publicacionAdapter
@@ -136,14 +169,64 @@ class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
         publicacionAdapter.notifyItemChanged(position)
     }
 
-    override fun onClickListener(libro: Libro, position: Int) {
+//    override fun onClickListener(libro: LibroEntity, position: Int) {
+//        if (libro.Prestado()) {
+//            // Si el libro esta prestado, ejecutar devolucion
+//            libro.devolver()
+//        } else {
+//            // El libro se encuentra disponible para ser prestado
+//            libro.prestar()
+//        }
+//        notifyItemChange(position)
+//    }
+
+    override fun onClickListener(libro: LibroEntity, position: Int) {
         if (libro.Prestado()) {
-            // Si el libro esta prestado, ejecutar devolucion
-            libro.devolver()
+            // Si el libroEntity esta prestado, ejecutar devolucion
+            doAsync {
+                libro.devolver()
+                BibliotecaApplication.database.libroDao().updateLibro(libro)
+                uiThread {
+                    publicacionAdapter.updateLibro(libro)
+                }
+            }
         } else {
-            // El libro se encuentra disponible para ser prestado
-            libro.prestar()
+            // El libroEntity se encuentra disponible para ser prestado
+            doAsync {
+                libro.prestar()
+                BibliotecaApplication.database.libroDao().updateLibro(libro)
+                uiThread {
+                    publicacionAdapter.updateLibro(libro)
+                }
+            }
         }
-        notifyItemChange(position)
+    }
+
+    override fun onDeleteLibro(libroEntity: LibroEntity, position: Int) {
+        AlertDialog.Builder(this)
+            .setTitle(this.resources.getString(R.string.titulo_eliminar))
+            .setMessage(this.resources.getString(R.string.msg_eliminar))
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                doAsync {
+                    BibliotecaApplication.database.libroDao().deleteLibro(libroEntity)
+                    uiThread {
+                        publicacionAdapter.deleteLibro(libroEntity)
+                    }
+                }
+            }.show()
+    }
+
+    override fun onDeleteRevista(revistaEntity: RevistaEntity, position: Int) {
+        AlertDialog.Builder(this)
+            .setTitle(this.resources.getString(R.string.titulo_eliminar))
+            .setMessage(this.resources.getString(R.string.msg_eliminar))
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                doAsync {
+                    BibliotecaApplication.database.revistaDao().deleteRevista(revistaEntity)
+                    uiThread {
+                        publicacionAdapter.deleteRevista(revistaEntity)
+                    }
+                }
+            }.show()
     }
 }

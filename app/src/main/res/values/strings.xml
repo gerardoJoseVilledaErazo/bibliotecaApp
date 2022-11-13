@@ -44,4 +44,8 @@
     <string name="bienvenido">Bienvenido</string>
     <string name="description_img">Imagen de la APP</string>
     <string name="cerrar_sesion">Cerrar Sesion</string>
+    <string name="titulo_eliminar">Eliminar</string>
+    <string name="msg_eliminar">Realmente desea eliminar?</string>
+    <string name="libroEntity">Libro</string>
+    <string name="titulo_filtro">Seleccionar filtro</string>
 </resources>

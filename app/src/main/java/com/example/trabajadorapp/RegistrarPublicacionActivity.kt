@@ -1,5 +1,6 @@
 package com.example.trabajadorapp
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,9 +11,11 @@ import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.example.trabajadorapp.MainActivity.Companion.publicacionRepository
-import com.example.trabajadorapp.Models.Libro
-import com.example.trabajadorapp.Models.Revista
+import com.example.trabajadorapp.Models.LibroEntity
+import com.example.trabajadorapp.Models.RevistaEntity
 import com.example.trabajadorapp.databinding.ActivityRegistrarPublicacionBinding
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern
 
 class RegistrarPublicacionActivity : AppCompatActivity(), View.OnClickListener {
@@ -29,11 +32,12 @@ class RegistrarPublicacionActivity : AppCompatActivity(), View.OnClickListener {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         // Configuracion del action bar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // Titulo para la actividad
         title = "Registrar Publicacion"
 
-
         tipoPublicacion = intent.extras!!.getInt("tipoPublicacion")
+
         // Configuracion de evento click para el botón de registro
         binding.layoutRegistrarPublicacion.btnGuardarRegistro.setOnClickListener(this)
 
@@ -44,54 +48,118 @@ class RegistrarPublicacionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+//    override fun onClick(p0: View?) {
+//        when (p0!!.id) {
+//            binding.layoutRegistrarPublicacion.btnGuardarRegistro.id -> {
+//                // Guardar la publicacion
+//                // Hay que evaluar si el tipo publicacion es Libro o Revista
+//                if (tipoPublicacion == 1) {
+//                    if (verifyEmpty(binding.layoutRegistrarPublicacion.edtCodigo) &&
+//                        verifyEmpty(binding.layoutRegistrarPublicacion.edtTitulo) &&
+//                        verifyEmpty(binding.layoutRegistrarPublicacion.edtAnioPublicacion)
+//                    ) {
+//                        publicacionRepository.add(
+//                            LibroEntity(
+//                                binding.layoutRegistrarPublicacion.edtCodigo.text.toString()
+//                                    .toInt(),
+//                                binding.layoutRegistrarPublicacion.edtTitulo.text.toString(),
+//                                binding.layoutRegistrarPublicacion.edtAnioPublicacion.text.toString()
+//                                    .toInt()
+//                            )
+//                        )
+//                        // Llamado al dialog
+//                        configProgressDialog()
+//
+//                    }
+//                } else if (tipoPublicacion == 2) {
+//
+//                    if (verifyEmpty(binding.layoutRegistrarPublicacion.edtCodigo) &&
+//                        verifyEmpty(binding.layoutRegistrarPublicacion.edtTitulo) &&
+//                        verifyEmpty(binding.layoutRegistrarPublicacion.edtAnioPublicacion) &&
+//                        verifyEmpty(binding.layoutRegistrarPublicacion.edtNumeroRevista)
+//                    ) {
+//                        publicacionRepository.add(
+//                            RevistaEntity(
+//                                binding.layoutRegistrarPublicacion.edtCodigo.text.toString()
+//                                    .toInt(),
+//                                binding.layoutRegistrarPublicacion.edtTitulo.text.toString(),
+//                                binding.layoutRegistrarPublicacion.edtAnioPublicacion.text.toString()
+//                                    .toInt(),
+//                                binding.layoutRegistrarPublicacion.edtNumeroRevista.text.toString()
+//                                    .toInt()
+//                            )
+//                        )
+//                        // Llamado al dialog
+//                        configProgressDialog()
+//
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     override fun onClick(p0: View?) {
         when (p0!!.id) {
             binding.layoutRegistrarPublicacion.btnGuardarRegistro.id -> {
                 // Guardar la publicacion
-                // Hay que evaluar si el tipo publicacion es Libro o Revista
+                // Hay que evaluar si el tipo publicacion es LibroEntity o RevistaEntity
                 if (tipoPublicacion == 1) {
                     if (verifyEmpty(binding.layoutRegistrarPublicacion.edtCodigo) &&
                         verifyEmpty(binding.layoutRegistrarPublicacion.edtTitulo) &&
                         verifyEmpty(binding.layoutRegistrarPublicacion.edtAnioPublicacion)
                     ) {
-                        publicacionRepository.add(
-                            Libro(
-                                binding.layoutRegistrarPublicacion.edtCodigo.text.toString()
-                                    .toInt(),
-                                binding.layoutRegistrarPublicacion.edtTitulo.text.toString(),
-                                binding.layoutRegistrarPublicacion.edtAnioPublicacion.text.toString()
-                                    .toInt()
+                        doAsync {
+                            BibliotecaApplication.database.libroDao().addLibro(
+                                LibroEntity(
+                                    codigo = binding.layoutRegistrarPublicacion.edtCodigo.text.toString()
+                                        .toInt(),
+                                    titulo = binding.layoutRegistrarPublicacion.edtTitulo.text.toString(),
+                                    anioPublicacion = binding.layoutRegistrarPublicacion.edtAnioPublicacion.text.toString()
+                                        .toInt()
+                                )
                             )
-                        )
+                            uiThread {
+//                                finish()
+                                goToMainActivity()
+                            }
+                        }
                         // Llamado al dialog
                         configProgressDialog()
-
                     }
                 } else if (tipoPublicacion == 2) {
-
+//
                     if (verifyEmpty(binding.layoutRegistrarPublicacion.edtCodigo) &&
                         verifyEmpty(binding.layoutRegistrarPublicacion.edtTitulo) &&
                         verifyEmpty(binding.layoutRegistrarPublicacion.edtAnioPublicacion) &&
                         verifyEmpty(binding.layoutRegistrarPublicacion.edtNumeroRevista)
                     ) {
-                        publicacionRepository.add(
-                            Revista(
-                                binding.layoutRegistrarPublicacion.edtCodigo.text.toString()
-                                    .toInt(),
-                                binding.layoutRegistrarPublicacion.edtTitulo.text.toString(),
-                                binding.layoutRegistrarPublicacion.edtAnioPublicacion.text.toString()
-                                    .toInt(),
-                                binding.layoutRegistrarPublicacion.edtNumeroRevista.text.toString()
-                                    .toInt()
+                        doAsync {
+                            BibliotecaApplication.database.revistaDao().addRevista(
+                                RevistaEntity(
+                                    codigo = binding.layoutRegistrarPublicacion.edtCodigo.text.toString()
+                                        .toInt(),
+                                    titulo = binding.layoutRegistrarPublicacion.edtTitulo.text.toString(),
+                                    anioPublicacion = binding.layoutRegistrarPublicacion.edtAnioPublicacion.text.toString()
+                                        .toInt(),
+                                    numeroRev = binding.layoutRegistrarPublicacion.edtNumeroRevista.text.toString()
+                                        .toInt()
+                                )
                             )
-                        )
+                            uiThread {
+//                                finish()
+                                goToMainActivity()
+                            }
+                        }
                         // Llamado al dialog
                         configProgressDialog()
-
                     }
                 }
             }
         }
+    }
+
+    private fun goToMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     // Configuracion del action bar

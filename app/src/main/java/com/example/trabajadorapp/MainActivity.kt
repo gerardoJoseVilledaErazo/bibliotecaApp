@@ -27,8 +27,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-//
-//        configuracionBotones()
+
+        configuracionBotones()
+    }
+
+    private fun configuracionBotones() {
         // Configurar evento click de los botones
         binding.layoutPrincipal.btnAgregarPub.setOnClickListener(this)
         binding.layoutPrincipal.btnMostrarLista.setOnClickListener(this)
@@ -44,7 +47,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             binding.layoutPrincipal.btnMostrarLista.id -> {
                 // Mostrar lista de publicaciones
-                startActivity(Intent(this, MostrarListaActivity::class.java))
+                startActivity(Intent(this, TipoListaActivity::class.java))
+//                startActivity(Intent(this, MostrarListaActivity::class.java))
             }
             binding.layoutPrincipal.btnMostrarDatos.id -> {
                 // Mostrar datos del desarrollador
