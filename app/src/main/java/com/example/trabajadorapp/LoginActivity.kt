@@ -1,6 +1,7 @@
 package com.example.trabajadorapp
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -9,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.trabajadorapp.databinding.ActivityLoginBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity() {
@@ -17,16 +20,18 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_login)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         title = "Iniciar Sesión"
+
         binding.btnSignUp.setOnClickListener {
             startActivity(Intent(this, RegistrarUsuarioActivity::class.java))
         }
+
         binding.btnSave.setOnClickListener {
             login()
         }
+
         configGlide()
     }
 
@@ -42,18 +47,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        if (/*binding.edtUserName.text.toString().isNotEmpty() &&*/
-            verifyTextPersonName(binding.edtUserName) &&
-//            binding.edtPassword.text.toString().isNotEmpty()
-            verifyEmpty(binding.edtPassword)
-        ) {
-            // Obtener valores del shared preferences
-            val preferences = getSharedPreferences("Users", MODE_PRIVATE)
-            val userName = preferences.getString("username", "")
-            val password = preferences.getString("password", "")
-            if (binding.edtUserName.text.toString() == userName &&
-                binding.edtPassword.text.toString() == password
-            ) {
+        if (verifyEmpty(binding.edtUserName) && verifyEmpty(binding.edtPassword)) {
+            val userName: String = binding.edtUserName.text.toString()
+            val password: String = binding.edtPassword.text.toString()
+            if (BibliotecaApplication.database.getUsuarioDao().login(userName, password) /*true*/) {
                 startActivity(Intent(this, MainActivity::class.java))
                 Toast.makeText(
                     this, "Bienvenido $userName",
@@ -63,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 MaterialAlertDialogBuilder(this)
                     .setTitle("Credenciales incorrectas...")
-                    .setMessage("Usuario/Contraseña no son correctos")
+                    .setMessage("Usuario/Contraseña no son correctos o no esta registrado, registrese primero")
                     .setPositiveButton("Aceptar", null)
                     .show()
             }
@@ -86,8 +83,6 @@ class LoginActivity : AppCompatActivity() {
 
     fun verifyChars(editText: EditText): Boolean {
         //Validamos solo caracteres Expresion regular
-//        Pattern.compile("^[a-zA-Z ]+$").matcher(editText.text.toString()).matches()
-
         return Pattern.compile("^[a-zA-Z ]+$").matcher(editText.text.toString()).matches()
     }
 

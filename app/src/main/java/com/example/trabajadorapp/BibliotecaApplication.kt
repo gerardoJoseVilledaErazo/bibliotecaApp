@@ -17,6 +17,8 @@ class BibliotecaApplication : Application() {
             BibliotecaDatabase::class.java,
             "BibliotecaDB"
         )
+            .allowMainThreadQueries()
+            .fallbackToDestructiveMigration() // esta linea destruye la base de datos y la vuelve a recrear con los cambios agregados
             .build()
     }
 }
