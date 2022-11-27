@@ -11,16 +11,16 @@
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_mostrar_datos.xml" value="0.25" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_mostrar_lista.xml" value="0.33" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_registrar_publicacion.xml" value="0.5" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_registrar_publicacion.xml" value="0.33" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_registrar_usuario.xml" value="0.33" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_seleccionar_publicacion.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/activity_tipo_lista.xml" value="0.17864583333333334" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/datos_desarrollador.xml" value="0.33" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/datos_desarrollador.xml" value="0.1" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/item_publicacion_list.xml" value="0.22447916666666667" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/pantalla_principal.xml" value="0.25" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/pantalla_principal.xml" value="0.1" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/progress_dialog.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/publicacion_form.xml" value="0.25" />
-        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/registrar_publicacion.xml" value="0.1" />
+        <entry key="..\:/Users/HP/AndroidStudioProjects/TrabajadorApp/app/src/main/res/layout/registrar_publicacion.xml" value="0.22" />
       </map>
     </option>
   </component>

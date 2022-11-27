@@ -28,8 +28,8 @@ class MostrarListaActivity : AppCompatActivity(), IOnClickListener {
     // Variable para configurar viewBinding
     private lateinit var binding: ActivityMostrarListaBinding
 
-    // Variables necesarias para configurar el recyclerview
-    private lateinit var recyclerView: RecyclerView
+        // Variables necesarias para configurar el recyclerview
+        private lateinit var recyclerView: RecyclerView
     private lateinit var publicacionAdapter: PublicacionAdapter
     private val llmanager = LinearLayoutManager(this)
     private lateinit var linearLayoutManager: LinearLayoutManager

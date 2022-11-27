@@ -11,15 +11,15 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:text="@string/bienvenido"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline6" />
 
     <ImageView
         android:id="@+id/imgvIconApp"
-        android:layout_width="5dp"
-        android:layout_height="5dp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         android:layout_gravity="center"
         android:layout_marginTop="2dp"
         android:contentDescription="@string/description_img" />
@@ -28,7 +28,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:hint="@string/nombre_de_usuario"
         android:padding="@dimen/min_margin_default"
         app:counterEnabled="true"
@@ -48,7 +48,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:hint="@string/contrasenia"
         android:padding="@dimen/min_margin_default"
         app:endIconMode="clear_text"
@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="16dp"
         android:text="@string/iniciar_sesion"
         android:textAllCaps="false" />
